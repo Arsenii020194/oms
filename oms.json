@@ -1,0 +1,170 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "OMS",
+        "description": "OMS"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080"
+        }
+    ],
+    "paths": {
+        "/orders": {
+            "post": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Places an order",
+                "description": "Places an order",
+                "operationId": "placeOrder",
+                "requestBody": {
+                    "description": "Order to add to the OMS",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OrderDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "FAQ"
+                ],
+                "summary": "Updates an existing order",
+                "description": "Updates an existing order",
+                "operationId": "updateOrder",
+                "requestBody": {
+                    "description": "Order to update",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Order"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Order response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "unexpected error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "OrderDto": {
+                "type": "object",
+                "required": [
+                    "type",
+                    "instrumentId",
+                    "userId",
+                    "userAccountId",
+                    "count"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "integer",
+                        "format": "inе32"
+                    },
+                    "instrumentId": {
+                        "type": "integer",
+                        "format": "inе64"
+                    },
+                    "userId": {
+                        "type": "integer",
+                        "format": "inе64"
+                    },
+                    "userAccountId": {
+                        "type": "integer",
+                        "format": "inе64"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "format": "inе64"
+                    },
+                    "price": {
+                        "type": "number"
+                    }
+                }
+            },
+            "Order": {
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/OrderDto"
+                    }
+                ],
+                "properties": {
+                    "orderId": {
+                        "type": "integer",
+                        "format": "inе64"
+                    },
+                    "orderStatus": {
+                        "type": "integer",
+                        "format": "inе32"
+                    }
+                }
+            },
+            "Error": {
+                "type": "object",
+                "required": [
+                    "message"
+                ],
+                "properties": {
+                    "message": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
