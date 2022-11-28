@@ -20,4 +20,14 @@ class OrdersController(private val orderService: OrderService) {
     fun updateOrder(@RequestBody orderDto: OrderDto): Order {
         return orderService.updateOrder(orderDto)
     }
+
+    @GetMapping("/{id}")
+    fun getOrder(@PathVariable id: Long): Order {
+        return orderService.getOrder(id)
+    }
+
+    @GetMapping
+    fun getAll(): List<Order> {
+        return orderService.getAll()
+    }
 }

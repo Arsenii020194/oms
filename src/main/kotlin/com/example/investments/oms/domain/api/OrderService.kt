@@ -6,4 +6,6 @@ import com.example.investments.oms.domain.api.model.Order
 interface OrderService {
     fun createOrder(orderDto: OrderDto): Order
     fun updateOrder(orderDto: OrderDto): Order
+    fun getOrder(id: Long): Order
+    fun getAll(): List<Order>
 }

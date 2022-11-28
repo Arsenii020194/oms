@@ -28,7 +28,7 @@ class OrderServiceImpl(
 
     override fun updateOrder(orderDto: OrderDto): Order {
         return orderRepository
-            .findById(orderDto.orderId)
+            .findById(orderDto.orderId!!)
             .map {
                 val order = orderRepository.save(objectMapper.updateValue(it, orderDto))
                 kafkaTemplate.send(
@@ -38,5 +38,14 @@ class OrderServiceImpl(
                 )
                 order
             }.orElseThrow()
+    }
+
+    override fun getOrder(id: Long): Order {
+        return orderRepository.findById(id).map { objectMapper.convertValue(it, Order::class.java) }
+            .orElseThrow()
+    }
+
+    override fun getAll(): List<Order> {
+        return orderRepository.findAll().map { objectMapper.convertValue(it, Order::class.java) }
     }
 }
