@@ -1,15 +1,17 @@
 server:
   port: 8082
+  tomcat:
+    threads:
+      max: 16
 spring:
-  security:
-    oauth2:
-      resource-server:
-        jwt:
-          issuer-uri: ${ISSUER_URI:http://localhost:8080}
   kafka:
-    bootstrap-servers: ${BOOTSTRAP_SERVERS}
+    bootstrap-servers: localhost:29092
     producer:
-      bootstrap-servers: ${BOOTSTRAP_SERVERS}
+      bootstrap-servers: localhost:29092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      properties:
+        spring.json.add.type.headers: false
   jpa:
     hibernate:
       ddl-auto: update
@@ -23,3 +25,5 @@ spring:
     url: jdbc:postgresql://localhost:5433/oms
     username: user
     password: password
+    hikari:
+      maximum-pool-size: 20

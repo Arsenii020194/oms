@@ -19,5 +19,7 @@ data class Order(
     val price: BigDecimal,
     val type: Int,
     val userAccountId: Long,
-    val userId: Long
+    val userId: Long,
+    @Transient
+    val messageType: String = "ORDER"
 )

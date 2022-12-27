@@ -1,5 +1,7 @@
 package com.example.investments.oms.config
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
@@ -9,9 +11,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer
 import org.springframework.security.web.SecurityFilterChain
 
+
 @EnableWebSecurity
 @Configuration(proxyBeanMethods = false)
-@Profile(value = ["!test"])
+@Profile(value = ["prod"])
 class SecurityConfig {
 
     @Throws(Exception::class)
@@ -28,3 +31,8 @@ class SecurityConfig {
             .oauth2ResourceServer { oauth2: OAuth2ResourceServerConfigurer<HttpSecurity?> -> oauth2.jwt() }
             .build()
 }
+
+@Configuration
+@EnableAutoConfiguration(exclude = [SecurityAutoConfiguration::class])
+@Profile("default")
+class WebSecurityConfigDisable

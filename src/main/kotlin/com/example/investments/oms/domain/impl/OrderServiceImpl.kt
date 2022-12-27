@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service
 class OrderServiceImpl(
     private val orderRepository: OrderRepository,
     private val objectMapper: ObjectMapper,
-    private val kafkaTemplate: KafkaTemplate<String, String>
+    private val kafkaTemplate: KafkaTemplate<String, Order>
 ) : OrderService {
 
     override fun createOrder(orderDto: OrderDto): Order {
@@ -21,7 +21,7 @@ class OrderServiceImpl(
         kafkaTemplate.send(
             "orders",
             order.orderId.toString(),
-            objectMapper.writeValueAsString(order)
+            order
         )
         return orderRepository.save(order)
     }
@@ -34,7 +34,7 @@ class OrderServiceImpl(
                 kafkaTemplate.send(
                     "orders",
                     order.orderId.toString(),
-                    objectMapper.writeValueAsString(order)
+                    order
                 )
                 order
             }.orElseThrow()
